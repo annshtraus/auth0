@@ -33,11 +33,8 @@
         console.log("CODE", window.accessToken);
         var lpGetAuthenticationToken = function (callback) {
             console.log("inside lpGetAuthenticationToken!");
-            callback({
-                redirect_uri: "https://annshtraus.github.io/auth0/backwards-code.html",
-                ssoKey: window.accessToken,
-            });
-        }
+            callback(window.accessToken);
+        };
         
         window.lpTag = window.lpTag || {};
         window.lpTag.sdes = window.lpTag.sdes || [];
