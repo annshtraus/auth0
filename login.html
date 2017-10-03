@@ -22,9 +22,17 @@
             return queryParams;
         }
         var urlParams = getURLParams(window.location.search) || {};
-        var site = urlParams.site || '7698243';
+        var site = urlParams.site;
         var redirect_uri = urlParams.redirect_uri || 'https://annshtraus.github.io/auth0';
         var state = urlParams.state || {};
+
+        if (sessionStorage && site) {
+            sessionStorage.setItem('site', site);
+        }
+
+        if (!site) {
+            alert("add your account number as GET param, '?site=...'");
+        }
     </script>
     <!-- BEGIN LivePerson Monitor. -->
     <script language="javascript">

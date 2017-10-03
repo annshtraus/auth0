@@ -23,7 +23,12 @@
             return queryParams;
         }
         var urlParams = getURLParams(window.location.search) || {};
-        window.site = urlParams.site || '7698243';
+        window.site = urlParams.site || sessionStorage && sessionStorage.getItem('site');
+
+        if (!window.site) {
+            alert("no site");
+        }
+
         window.accessToken = urlParams.code;
         console.log("CODE", window.accessToken);
         var lpGetAuthenticationToken = function (callback) {

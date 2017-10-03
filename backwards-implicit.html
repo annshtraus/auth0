@@ -32,7 +32,12 @@
         }
 
         var urlParams = getURLParams(window.location.search) || {};
-        var site = urlParams.site || '7698243';
+        var site = urlParams.site || sessionStorage && sessionStorage.getItem('site');
+
+        if (!window.site) {
+            alert("no site");
+        }
+
         var redirect_uri = urlParams.redirect_uri ? encodeURIComponent(urlParams.redirect_uri) : 'https%3A%2F%2Fannshtraus.github.io%2Fauth0%2F%3Fsite%3D' + site;
         var state = urlParams.state || '{}';
         var responseType = urlParams.response_type || '';
