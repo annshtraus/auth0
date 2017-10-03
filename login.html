@@ -23,7 +23,7 @@
         }
         var urlParams = getURLParams(window.location.search) || {};
         var site = urlParams.site || '7698243';
-        var redirect_uri = urlParams.redirect_uri || 'https://natiz.github.io/auth0';
+        var redirect_uri = urlParams.redirect_uri || 'https://annshtraus.github.io/auth0';
         var state = urlParams.state || {};
     </script>
     <!-- BEGIN LivePerson Monitor. -->
@@ -124,46 +124,81 @@
     </script>
 </head>
 <body>
-    <div>
-        <h1>IMPLICIT LOGIN</h1>
+    <div style="float:left;">
+        <h1>OAUTH 2 - IMPLICIT LOGIN</h1>
             <div id="implicit-login" style="width: 320px; margin: 40px auto; padding: 10px; border-style: dashed; border-width: 1px; box-sizing: border-box;">
         embedded area
         </div>
     </div>
     <div style="float:left;">
-        <h1>CODE LOGIN</h1>
+        <h1>OAUTH 2 - CODE LOGIN</h1>
             <div id="code-login" style="width: 320px; margin: 40px auto; padding: 10px; border-style: dashed; border-width: 1px; box-sizing: border-box;">
         embedded area
         </div>
     </div>
+    <div style="float:left;">
+        <h1>BACKWARDS - IMPLICIT LOGIN</h1>
+        <div id="backwards-implicit-login" style="width: 320px; margin: 40px auto; padding: 10px; border-style: dashed; border-width: 1px; box-sizing: border-box;">
+            embedded area
+        </div>
+    </div>
+    <div style="float:left;">
+        <h1>BACKWARDS - CODE LOGIN</h1>
+        <div id="backwards-code-login" style="width: 320px; margin: 40px auto; padding: 10px; border-style: dashed; border-width: 1px; box-sizing: border-box;">
+            embedded area
+        </div>
+    </div>
 <script src="https://cdn.auth0.com/js/lock/10.20/lock.min.js"></script>
 <script>
-  var lockImplicit = new Auth0Lock('AMWPs9H_5y1RuBgarnUc8se8RKvHr78z', 'natiz.auth0.com', {
-    container: 'implicit-login',
-    auth: {
-      redirectUrl: 'https://natiz.github.io/auth0/implicit.html',
-      responseType: 'id_token',
-      params: {
-        scope: 'openid email' // Learn about scopes: https://auth0.com/docs/scopes
-      }
-    }
-  });
-  lockImplicit.show();
-    
-    
-  var lockCode = new Auth0Lock('AMWPs9H_5y1RuBgarnUc8se8RKvHr78z', 'natiz.auth0.com', {
-    container: 'code-login',
-    auth: {
-       redirectUrl: 'https://natiz.github.io/auth0/code.html',
+    var lockImplicit = new Auth0Lock('RJNkfFnvaU3hEDzKKomWgEJYXnyxNsoX', 'vxteam.auth0.com', {
+        container: 'implicit-login',
+        auth: {
+            redirectUrl: 'https://annshtraus.github.io/auth0/implicit.html',
+            responseType: 'id_token',
+            params: {
+                scope: 'openid email' // Learn about scopes: https://auth0.com/docs/scopes
+            }
+        }
+    });
+    lockImplicit.show();
+
+    var lockCode = new Auth0Lock('RJNkfFnvaU3hEDzKKomWgEJYXnyxNsoX', 'vxteam.auth0.com', {
+        container: 'code-login',
+        auth: {
+            redirectUrl: 'https://annshtraus.github.io/auth0/code.html',
 //         redirectUrl: 'https://lpcdn-a.lpsnmedia.net/le_unified_window/index.html',
-      responseType: 'code',
-      params: {
-        scope: 'openid email', // Learn about scopes: https://auth0.com/docs/scopes
-          
-      }
-    }
-  });
-  lockCode.show();
+            responseType: 'code',
+            params: {
+                scope: 'openid email' // Learn about scopes: https://auth0.com/docs/scopes
+            }
+        }
+    });
+    lockCode.show();
+
+    var lockBackwardsImplicit = new Auth0Lock('a7ZhjIKoR0MVUy7f8OyM6VbfQsuMaQDD', 'vxteam.auth0.com', {
+        container: 'backwards-implicit-login',
+        auth: {
+            redirectUrl: 'https://annshtraus.github.io/auth0/backwards-implicit.html',
+            responseType: 'id_token',
+            params: {
+                scope: 'openid email' // Learn about scopes: https://auth0.com/docs/scopes
+            }
+        }
+    });
+    lockBackwardsImplicit.show();
+
+    var lockBackwardsCode = new Auth0Lock('a7ZhjIKoR0MVUy7f8OyM6VbfQsuMaQDD', 'vxteam.auth0.com', {
+        container: 'backwards-code-login',
+        auth: {
+            redirectUrl: 'https://annshtraus.github.io/auth0/backwards-code.html',
+//         redirectUrl: 'https://lpcdn-a.lpsnmedia.net/le_unified_window/index.html',
+            responseType: 'code',
+            params: {
+                scope: 'openid email' // Learn about scopes: https://auth0.com/docs/scopes
+            }
+        }
+    });
+    lockBackwardsCode.show();
 </script>
 </body>
 </html>
