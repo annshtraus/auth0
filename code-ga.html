@@ -23,13 +23,18 @@
             return queryParams;
         }
         var urlParams = getURLParams(window.location.search) || {};
-        window.site = urlParams.site || '40859459';
+        window.site = urlParams.site || sessionStorage && sessionStorage.getItem('site');
+
+        if (!window.site) {
+            alert("no site");
+        }
+
         window.accessToken = urlParams.code;
         console.log("CODE", window.accessToken);
         var lpGetAuthenticationToken = function (callback) {
             console.log("inside lpGetAuthenticationToken!");
             callback({
-                redirect_uri: "https://annshtraus.github.io/oauth0/code-ga.html",
+                redirect_uri: "https://annshtraus.github.io/auth0/code.html",
                 ssoKey: window.accessToken,
             });
         }
@@ -140,7 +145,7 @@
 <h3>AccessToken: <span id="accessToken"></span></h3>
 <script src="https://cdn.auth0.com/js/lock/10.20/lock.min.js"></script>
 <script>
-    var lock = new Auth0Lock('AMWPs9H_5y1RuBgarnUc8se8RKvHr78z', 'natiz.auth0.com');
+    var lock = new Auth0Lock('RJNkfFnvaU3hEDzKKomWgEJYXnyxNsoX', 'vxteam.auth0.com');
     // lock.on("hash_parsed", function (res) {
     //     console.log("HASH PARSED", res);
     //     if (res.idToken) {

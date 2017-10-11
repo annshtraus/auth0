@@ -5,18 +5,10 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Auth0 Sample</title>
+    <title>Auth0 Sample - Code Flow</title>
 
     <script>
-        window.accessToken = '';
-        var lpGetAuthenticationToken = function (callback) {
-            console.log("inside lpGetAuthenticationToken!");
-            callback(window.accessToken);
-            // TODO
-        }
-    </script>
-
-    <script>
+        
         function getURLParams(search) {
             var queryParams = {}, queryArray, singleQuery;
             queryArray = search.substr(1).split("&");
@@ -30,35 +22,23 @@
             }
             return queryParams;
         }
-
         var urlParams = getURLParams(window.location.search) || {};
-        var site = urlParams.site || sessionStorage.getItem('site');
+        window.site = urlParams.site || sessionStorage && sessionStorage.getItem('site');
 
         if (!window.site) {
             alert("no site");
         }
 
-        var redirect_uri = urlParams.redirect_uri ? encodeURIComponent(urlParams.redirect_uri) : 'https%3A%2F%2Fannshtraus.github.io%2Fauth0%2F%3Fsite%3D' + site;
-        var state = urlParams.state || '{}';
-        var responseType = urlParams.response_type || '';
-        state = encodeURIComponent(state);
-        var baseUrl = 'https://vxteam.auth0.com/authorize?client_id=AMWPs9H_5y1RuBgarnUc8se8RKvHr78z';
-        baseUrl += '&redirect_uri=' + redirect_uri + '&state=' + state;
-        var audience = '&audience=https%3A%2F%2Fvxteam.auth0.com%2Fapi%2Fv2%2F';
-        var nonce = '&nonce=abc';
-        if (responseType) {
-            var redirectUrl = baseUrl;
-            if (responseType === 'code') {
-                redirectUrl += '&response_type=code';
-                redirectUrl += audience;
-            } else {
-                redirectUrl += '&response_type=id_token';
-                redirectUrl += nonce;
-            }
-            if (urlParams.autoRedirect) {
-                window.location.href = redirectUrl;
-            }
-        }
+        window.accessToken = urlParams.code;
+        console.log("CODE", window.accessToken);
+        var lpGetAuthenticationToken = function (callback) {
+            console.log("inside lpGetAuthenticationToken!");
+            callback(window.accessToken);
+        };
+        
+        window.lpTag = window.lpTag || {};
+        window.lpTag.sdes = window.lpTag.sdes || [];
+        lpTag.sdes.push({"type": "ctmrinfo", "info": {customerId: "natiz@liveperson.com"}});
     </script>
     <!-- BEGIN LivePerson Monitor. -->
     <script language="javascript">
@@ -158,46 +138,47 @@
     </script>
 </head>
 <body style="text-align: center">
-<h1>Howdy, <span id="nick"></h1>
-<h3>AccessToken: <span id="accessToken"></span></h3>
+    <h1>Howdy, <span id="nick"></h1>
+        <h3>AccessToken: <span id="accessToken"></span></h3>
 <script src="https://cdn.auth0.com/js/lock/10.20/lock.min.js"></script>
 <script>
-    var lock = new Auth0Lock('RJNkfFnvaU3hEDzKKomWgEJYXnyxNsoX', 'vxteam.auth0.com');
-    lock.on("hash_parsed", function (res) {
-        console.log("HASH PARSED", res);
-        if (res.idToken) {
-            window.accessToken = res.idToken;
-            document.getElementById('accessToken').textContent = res.idToken;
-            console.log("GOT ACCESS TOKEN", res.idToken);
-        }
-        if (res.idTokenPayload) {
-            if (res.idTokenPayload.email) {
-                console.log("PUSHING SDE", res.idTokenPayload.email);
-                document.getElementById('nick').textContent = res.idTokenPayload.email;
-                lpTag.sdes.push({"type": "ctmrinfo", "info": {customerId: res.idTokenPayload.email}});
-            }
-        }
-    });
-    // lock.on("authenticated", function(authResult) {
-    //   // Use the token in authResult to getUserInfo() and save it to localStorage
-    //   lock.getUserInfo(authResult.accessToken, function(error, profile) {
-    //     if (error) {
-    //       // Handle error
-    //       return;
-    //     }
+var lock = new Auth0Lock('a7ZhjIKoR0MVUy7f8OyM6VbfQsuMaQDD', 'vxteam.auth0.com');
+// lock.on("hash_parsed", function (res) {
+//     console.log("HASH PARSED", res);
+//     if (res.idToken) {
+//         window.accessToken = res.idToken;
+//         document.getElementById('accessToken').textContent = res.idToken;
+//         console.log("GOT ACCESS TOKEN", res.idToken);
+//     }
+//     if (res.idTokenPayload) {
+//         if (res.idTokenPayload.email) {
+//             console.log("PUSHING SDE", res.idTokenPayload.email);
+//             document.getElementById('nick').textContent = res.idTokenPayload.email;
+//             lpTag.sdes.push({"type": "ctmrinfo", "info": {customerId: res.idTokenPayload.email}});
+//         }
+//     }
+// });
+lock.on("authenticated", function(authResult) {
+  // Use the token in authResult to getUserInfo() and save it to localStorage
+  lock.getUserInfo(authResult.accessToken, function(error, profile) {
+    if (error) {
+      // Handle error
+      return;
+    }
+      
+      console.log("GOT PROFILE", profile);
+      window.accessToken = authResult.accessToken;
+      
 
-    //       console.log("GOT PROFILE", profile);
-    //       window.accessToken = authResult.accessToken;
+    document.getElementById('nick').textContent = profile.nickname;
 
-    //     document.getElementById('nick').textContent = profile.nickname;
+    localStorage.setItem('accessToken', authResult.accessToken);
+    localStorage.setItem('profile', JSON.stringify(profile));
+  });
+});
 
-    //     localStorage.setItem('accessToken', authResult.accessToken);
-    //     localStorage.setItem('profile', JSON.stringify(profile));
-    //   });
-    // });
-
-</script>
-
+    </script>
+    
 <script>
 </script>
 </body>

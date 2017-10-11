@@ -32,7 +32,7 @@
         }
 
         var urlParams = getURLParams(window.location.search) || {};
-        var site = urlParams.site || sessionStorage.getItem('site');
+        var site = urlParams.site || sessionStorage && sessionStorage.getItem('site');
 
         if (!window.site) {
             alert("no site");
@@ -158,46 +158,46 @@
     </script>
 </head>
 <body style="text-align: center">
-<h1>Howdy, <span id="nick"></h1>
-<h3>AccessToken: <span id="accessToken"></span></h3>
+    <h1>Howdy, <span id="nick"></h1>
+        <h3>AccessToken: <span id="accessToken"></span></h3>
 <script src="https://cdn.auth0.com/js/lock/10.20/lock.min.js"></script>
 <script>
-    var lock = new Auth0Lock('RJNkfFnvaU3hEDzKKomWgEJYXnyxNsoX', 'vxteam.auth0.com');
-    lock.on("hash_parsed", function (res) {
-        console.log("HASH PARSED", res);
-        if (res.idToken) {
-            window.accessToken = res.idToken;
-            document.getElementById('accessToken').textContent = res.idToken;
-            console.log("GOT ACCESS TOKEN", res.idToken);
+var lock = new Auth0Lock('a7ZhjIKoR0MVUy7f8OyM6VbfQsuMaQDD', 'vxteam.auth0.com');
+lock.on("hash_parsed", function (res) {
+    console.log("HASH PARSED", res);
+    if (res.idToken) {
+        window.accessToken = res.idToken;
+        document.getElementById('accessToken').textContent = res.idToken;
+        console.log("GOT ACCESS TOKEN", res.idToken);
+    }
+    if (res.idTokenPayload) {
+        if (res.idTokenPayload.email) {
+            console.log("PUSHING SDE", res.idTokenPayload.email);
+            document.getElementById('nick').textContent = res.idTokenPayload.email;
+            lpTag.sdes.push({"type": "ctmrinfo", "info": {customerId: res.idTokenPayload.email}});
         }
-        if (res.idTokenPayload) {
-            if (res.idTokenPayload.email) {
-                console.log("PUSHING SDE", res.idTokenPayload.email);
-                document.getElementById('nick').textContent = res.idTokenPayload.email;
-                lpTag.sdes.push({"type": "ctmrinfo", "info": {customerId: res.idTokenPayload.email}});
-            }
-        }
-    });
-    // lock.on("authenticated", function(authResult) {
-    //   // Use the token in authResult to getUserInfo() and save it to localStorage
-    //   lock.getUserInfo(authResult.accessToken, function(error, profile) {
-    //     if (error) {
-    //       // Handle error
-    //       return;
-    //     }
+    }
+});
+// lock.on("authenticated", function(authResult) {
+//   // Use the token in authResult to getUserInfo() and save it to localStorage
+//   lock.getUserInfo(authResult.accessToken, function(error, profile) {
+//     if (error) {
+//       // Handle error
+//       return;
+//     }
+      
+//       console.log("GOT PROFILE", profile);
+//       window.accessToken = authResult.accessToken;
 
-    //       console.log("GOT PROFILE", profile);
-    //       window.accessToken = authResult.accessToken;
+//     document.getElementById('nick').textContent = profile.nickname;
 
-    //     document.getElementById('nick').textContent = profile.nickname;
+//     localStorage.setItem('accessToken', authResult.accessToken);
+//     localStorage.setItem('profile', JSON.stringify(profile));
+//   });
+// });
 
-    //     localStorage.setItem('accessToken', authResult.accessToken);
-    //     localStorage.setItem('profile', JSON.stringify(profile));
-    //   });
-    // });
-
-</script>
-
+    </script>
+    
 <script>
 </script>
 </body>
