@@ -42,9 +42,9 @@
         var state = urlParams.state || '{}';
         var responseType = urlParams.response_type || '';
         state = encodeURIComponent(state);
-        var baseUrl = 'https://vxteam.auth0.com/authorize?client_id=AMWPs9H_5y1RuBgarnUc8se8RKvHr78z';
+        var baseUrl = 'https://chicken69.auth0.com/authorize?client_id=AMWPs9H_5y1RuBgarnUc8se8RKvHr78z';
         baseUrl += '&redirect_uri=' + redirect_uri + '&state=' + state;
-        var audience = '&audience=https%3A%2F%2Fvxteam.auth0.com%2Fapi%2Fv2%2F';
+        var audience = '&audience=https%3A%2F%2Fchicken69.auth0.com%2Fapi%2Fv2%2F';
         var nonce = '&nonce=abc';
         if (responseType) {
             var redirectUrl = baseUrl;
@@ -162,7 +162,7 @@
         <h3>AccessToken: <span id="accessToken"></span></h3>
 <script src="https://cdn.auth0.com/js/lock/10.20/lock.min.js"></script>
 <script>
-var lock = new Auth0Lock('a7ZhjIKoR0MVUy7f8OyM6VbfQsuMaQDD', 'vxteam.auth0.com');
+var lock = new Auth0Lock('s7IOu0XFk0KLW7p0OjmyMA1XINzFqORe', 'chicken69.auth0.com');
 lock.on("hash_parsed", function (res) {
     console.log("HASH PARSED", res);
     if (res.idToken) {
